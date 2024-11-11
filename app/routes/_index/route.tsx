@@ -5,6 +5,10 @@ import commonStyles from '~/styles/common-styles.module.scss';
 import { getUrlOriginWithPath } from '~/utils';
 import TypescriptSvg from '../../../src/assets/svg/typescript.svg';
 import ViteSvg from '../../../src/assets/svg/vite.svg';
+import { Admin, Resource, ListGuesser } from 'react-admin';
+import jsonServerProvider from 'ra-data-json-server';
+
+const dataProvider = jsonServerProvider('https://jsonplaceholder.typicode.com');
 
 export const loader = ({ request }: LoaderFunctionArgs) => {
     return { canonicalUrl: getUrlOriginWithPath(request.url) };
@@ -12,18 +16,25 @@ export const loader = ({ request }: LoaderFunctionArgs) => {
 
 export default function HomePage() {
     return (
-        <div className={styles.root}>
-            <h2 className={styles.title}>Welcome to your App Homepage 🎉</h2>
-            <span>
-                Double click to edit App component
-                <br />
-                &amp; drag here elements from + Add <b>Elements</b> Panel
-            </span>
-            <p className={styles.paragraph}>
-                This project is using <img src={ViteSvg} width="12" />+
-                <img src={TypescriptSvg} width="12" />
-                Visit vitejs.dev to learn more.{' '}
-            </p>
+        <div>
+            <div>
+                <Admin dataProvider={dataProvider}>
+                    <Resource name="users" list={ListGuesser} />
+                </Admin>
+            </div>
+            <div className={styles.root}>
+                <h2 className={styles.title}>Welcome to your App Homepage 🎉</h2>
+                <span>
+                    Double click to edit App component
+                    <br />
+                    &amp; drag here elements from + Add <b>Elements</b> Panel
+                </span>
+                <p className={styles.paragraph}>
+                    This project is using <img src={ViteSvg} width="12" />+
+                    <img src={TypescriptSvg} width="12" />
+                    Visit vitejs.dev to learn more.{' '}
+                </p>
+            </div>
         </div>
     );
 }
